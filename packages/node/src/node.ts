@@ -1,4 +1,4 @@
-import {Duplex, Writable} from "stream";
+// import {Duplex, Writable} from "stream";
 
 import {encode} from "@msgpack/msgpack";
 
@@ -8,11 +8,11 @@ import {Base} from "@logtail/core";
 import {getStackContext} from "./context";
 
 export class Node extends Base {
-  /**
-   * Readable/Duplex stream where JSON stringified logs of type `ILogtailLog`
-   * will be pushed after syncing
-   */
-  private _writeStream?: Writable | Duplex;
+  // /**
+  //  * Readable/Duplex stream where JSON stringified logs of type `ILogtailLog`
+  //  * will be pushed after syncing
+  //  */
+  // private _writeStream?: Writable | Duplex;
 
   public constructor(
     sourceToken: string,
@@ -64,24 +64,24 @@ export class Node extends Base {
     context = { ...getStackContext(this, stackContextHint), ...context };
     const processedLog = await super.log(message, level, context);
 
-    // Push the processed log to the stream, for piping
-    if (this._writeStream) {
-      this._writeStream.write(JSON.stringify(processedLog) + "\n");
-    }
+    // // Push the processed log to the stream, for piping
+    // if (this._writeStream) {
+    //   this._writeStream.write(JSON.stringify(processedLog) + "\n");
+    // }
 
     // Return the transformed log
     return processedLog as ILogtailLog & TContext;
   }
 
-  /**
-   * Pipe JSON stringified `ILogtailLog` to a stream after syncing
-   *
-   * @param stream - Writable|Duplex stream
-   */
-  public pipe(stream: Writable | Duplex) {
-    this._writeStream = stream;
-    return stream;
-  }
+  // /**
+  //  * Pipe JSON stringified `ILogtailLog` to a stream after syncing
+  //  *
+  //  * @param stream - Writable|Duplex stream
+  //  */
+  // public pipe(stream: Writable | Duplex) {
+  //   this._writeStream = stream;
+  //   return stream;
+  // }
 
   private encodeAsMsgpack(logs: ILogtailLog[]): Uint8Array {
     const maxDepth = this._options.contextObjectMaxDepth;
