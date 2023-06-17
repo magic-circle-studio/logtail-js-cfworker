@@ -1,4 +1,4 @@
-# [Logtail](https://betterstack.com/logtail) Node.js client by [Better Stack](https://betterstack.com/)
+# [Logtail](https://betterstack.com/logtail) Cloudflare Workers client -- simple fork/patch of @logtail/node
 
 [![Logtail dashboard](https://user-images.githubusercontent.com/19272921/154085622-59997d5a-3f91-4bc9-a815-3b8ead16d28d.jpeg)](https://betterstack.com/logtail)
 

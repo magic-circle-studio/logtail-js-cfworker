@@ -1,15 +1,18 @@
 {
-  "name": "@logtail/node",
+  "name": "@logtail/cfworker",
   "version": "0.4.0",
-  "description": "Logtail.com - Node.js logger",
+  "description": "Logtail.com - Cloudflare Worker logger",
   "keywords": [
     "Logtail",
     "logger",
     "logging",
-    "Node"
+    "Cloudflare",
+    "Workers",
+    "Cloudflare Workers",
+    "betterstack"
   ],
-  "author": "Logtail <hello@logtail.com>",
-  "homepage": "https://github.com/logtail/logtail-js/tree/master/packages/node#readme",
+  "author": "Avi Romanoff <avi@magiccircle.studio>",
+  "homepage": "https://github.com/magic-circle-studio/logtail-js-cfworker/tree/master/packages/node#readme",
   "license": "ISC",
   "main": "dist/cjs/index.js",
   "module": "dist/es6/index.js",
@@ -20,7 +23,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/logtail/logtail-js.git"
+    "url": "git+https://github.com/magic-circle-studio/logtail-js-cfworker.git"
   },
   "publishConfig": {
     "access": "public"
@@ -33,7 +36,7 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {
-    "url": "https://github.com/logtail/logtail-js/issues"
+    "url": "https://github.com/magic-circle-studio/logtail-js-cfworker/issues"
   },
   "devDependencies": {
     "@types/babel__core": "7.0.4",
