@@ -1,6 +1,6 @@
 {
   "name": "@magiccircle/logtail-cfworker",
-  "version": "0.4.0",
+  "version": "0.4.0-cf1",
   "description": "Logtail.com - Cloudflare Worker logger",
   "keywords": [
     "Logtail",
