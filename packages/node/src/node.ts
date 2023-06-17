@@ -84,12 +84,12 @@ export class Node extends Base {
     return stream;
   }
 
-  private encodeAsMsgpack(logs: ILogtailLog[]): Buffer {
+  private encodeAsMsgpack(logs: ILogtailLog[]): Uint8Array {
     const maxDepth = this._options.contextObjectMaxDepth;
     const logsWithISODateFormat = logs.map((log) => ({ ...this.sanitizeForEncoding(log, maxDepth), dt: log.dt.toISOString() }));
     const encoded = encode(logsWithISODateFormat);
-    const buffer = Buffer.from(encoded.buffer, encoded.byteOffset, encoded.byteLength)
-    return buffer;
+    const u8 = new Uint8Array(encoded.buffer, encoded.byteOffset, encoded.byteLength)
+    return u8;
   }
 
   private sanitizeForEncoding(value: any, maxDepth: number, visitedObjects: WeakSet<any> = new WeakSet()): any {

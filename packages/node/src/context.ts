@@ -1,9 +1,9 @@
 import { Context, StackContextHint } from "@logtail/types";
-import { dirname, relative } from "path";
+// import { dirname, relative } from "path";
 import stackTrace, { StackFrame } from 'stack-trace';
 import { Node } from "./node";
 
-const mainFile = mainFileName();
+// const mainFile = mainFileName();
 /**
  * Determines the file name and the line number from which the log
  * was initiated (if we're able to tell).
@@ -17,7 +17,8 @@ export function getStackContext(logtail: Node, stackContextHint?: StackContextHi
   return {
     context: {
       runtime: {
-        file: relativeToMainModule(stackFrame.getFileName()),
+        // file: relativeToMainModule(stackFrame.getFileName()),
+        file: stackFrame.getFileName(),
         type: stackFrame.getTypeName(),
         method: stackFrame.getMethodName(),
         function: stackFrame.getFunctionName(),
@@ -25,8 +26,8 @@ export function getStackContext(logtail: Node, stackContextHint?: StackContextHi
         column: stackFrame.getColumnNumber(),
       },
       system: {
-        pid: process.pid,
-        main_file: mainFile,
+        // pid: process.pid,
+        // main_file: mainFile,
       }
     }
   };
@@ -35,7 +36,7 @@ export function getStackContext(logtail: Node, stackContextHint?: StackContextHi
 function getCallingFrame(logtail: Node, stackContextHint?: StackContextHint): StackFrame | null {
   for (let fn of [logtail.warn, logtail.error, logtail.info, logtail.debug, logtail.log]) {
     const stack = stackTrace.get(fn as any);
-    if (stack.length > 0) return getRelevantStackFrame(stack, stackContextHint);
+  if (stack.length > 0) return getRelevantStackFrame(stack, stackContextHint);
   }
 
   return null;
@@ -54,30 +55,30 @@ function getRelevantStackFrame(frames: StackFrame[], stackContextHint?: StackCon
   return frames[0];
 }
 
-function relativeToMainModule(fileName: string): string | null {
-  if (typeof(fileName) !== "string") {
-    return null;
-  } else if (fileName.startsWith("file:/")) {
-    const url = new URL(fileName);
-    return url.pathname;
-  } else {
-    const rootPath = dirname(mainFileName());
-    return relative(rootPath, fileName);
-  }
-}
+// function relativeToMainModule(fileName: string): string | null {
+//   if (typeof(fileName) !== "string") {
+//     return null;
+//   } else if (fileName.startsWith("file:/")) {
+//     const url = new URL(fileName);
+//     return url.pathname;
+//   } else {
+//     const rootPath = dirname(mainFileName());
+//     return relative(rootPath, fileName);
+//   }
+// }
 
-function mainFileName(): string {
-  let argv = process?.argv;
-  if (argv === undefined) return '';
-  // return first js file argument - arg ending in .js
-  for (const i in argv) {
-    if (typeof(argv[i]) !== "string" || argv[i].startsWith('-')) {
-      // break on first option
-      break;
-    }
-    if (argv[i].endsWith('.js')) {
-      return argv[i];
-    }
-  }
-  return '';
-}
+// function mainFileName(): string {
+//   let argv = process?.argv;
+//   if (argv === undefined) return '';
+//   // return first js file argument - arg ending in .js
+//   for (const i in argv) {
+//     if (typeof(argv[i]) !== "string" || argv[i].startsWith('-')) {
+//       // break on first option
+//       break;
+//     }
+//     if (argv[i].endsWith('.js')) {
+//       return argv[i];
+//     }
+//   }
+//   return '';
+// }
