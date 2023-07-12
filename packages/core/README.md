@@ -1,9 +1,11 @@
-# [Logtail](https://betterstack.com/logtail) JavaScript client by [Better Stack](https://betterstack.com/) - Logging core library 
+# [Better Stack](https://betterstack.com/logs) JavaScript client: Logging core library
+
+📣 Logtail is now part of Better Stack. [Learn more ⇗](https://betterstack.com/press/introducing-better-stack/)
 
 [![ISC License](https://img.shields.io/badge/license-ISC-ff69b4.svg)](LICENSE.md)
 
 **Looking for a logging solution?**  
-Check out [Logtail](https://logtail.com) and [Logtail clients for JavaScript and Node.js](https://betterstack.com/docs/logs/javascript/).
+Check out [Better Stack](https://betterstack.com/logs) and [Better Stack clients for JavaScript and Node.js](https://betterstack.com/docs/logs/javascript/).
 
 ## `@logtail/core`
 
