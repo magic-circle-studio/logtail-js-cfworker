@@ -10,6 +10,6 @@
 5. `cd packages/node` (this is the package we modified to support Workers)
 6. `yarn publish`. Don't input a new version when prompted, just hit enter to use the version
 	 in package.json.
-7. Go [here](https://www.npmjs.com/package/@magiccircle/logtail-cfworker) to
+7. Go [here](https://www.npmjs.com/package/@magiccircle/logtail-cfworker?activeTab=versions) to
 	 make sure the new version is published.
 8. Now you can use the new version in your Workers project!
