@@ -35,6 +35,16 @@ export interface ILogtailOptions {
   syncMax: number;
 
   /**
+   * Length of the checked window for logs burst protection in milliseconds (0 to disable)
+   */
+  burstProtectionMilliseconds: number;
+
+  /**
+   * Maximum number of accepted logs in the specified time window (0 to disable)
+   */
+  burstProtectionMax: number;
+
+  /**
    * Errors when sending logs will be silently ignored
    * Has precedence over throwExceptions
    */
@@ -59,6 +69,16 @@ export interface ILogtailOptions {
    * Boolean to produce a warning when circular reference is found in context
    **/
   contextObjectCircularRefWarn: boolean;
+
+  /**
+   * If true, all logs will be sent to standard console functions (console.info, console.warn, ...)
+   **/
+  sendLogsToConsoleOutput: boolean;
+
+  /**
+   * If true, all logs will be sent to Better Stack
+   **/
+  sendLogsToBetterStack: boolean;
 }
 
 export type ILogLevel = LogLevel | string;

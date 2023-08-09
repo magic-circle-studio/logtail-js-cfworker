@@ -1,6 +1,6 @@
 {
   "name": "@magiccircle/logtail-cfworker",
-  "version": "0.4.2",
+  "version": "0.4.5",
   "description": "Logtail.com - Cloudflare Worker logger",
   "keywords": [
     "Logtail",
@@ -46,8 +46,8 @@
   },
   "dependencies": {
     "@cloudflare/workers-types": "^4.20230518.0",
-    "@logtail/core": "^0.4.2",
-    "@logtail/types": "^0.4.2",
+    "@logtail/core": "^0.4.5",
+    "@logtail/types": "^0.4.5",
     "@msgpack/msgpack": "^2.5.1",
     "@types/stack-trace": "^0.0.29",
     "minimatch": "^3.0.4",

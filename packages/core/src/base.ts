@@ -7,7 +7,7 @@ import {
   Middleware,
   Sync
 } from "@logtail/types";
-import { makeBatch, makeThrottle } from "@logtail/tools";
+import { makeBatch, makeBurstProtection, makeThrottle } from "@logtail/tools";
 
 // Types
 type Message = string | Error;
@@ -32,6 +32,12 @@ const defaultOptions: ILogtailOptions = {
   // Maximum number of sync requests to make concurrently
   syncMax: 5,
 
+  // Length of the checked window for logs burst protection in milliseconds (0 to disable)
+  burstProtectionMilliseconds: 5000,
+
+  // Maximum number of accepted logs in the specified time window (0 to disable)
+  burstProtectionMax: 10000,
+
   // If true, errors when sending logs will be ignored
   // Has precedence over throwExceptions
   ignoreExceptions: false,
@@ -39,14 +45,20 @@ const defaultOptions: ILogtailOptions = {
   // If true, errors when sending logs will result in a thrown exception
   throwExceptions: false,
 
-  // maximum depth (number of attribute levels) of a context object
+  // Maximum depth (number of attribute levels) of a context object
   contextObjectMaxDepth: 50,
 
-  // produce a warn log when context object max depth is reached
+  // Produce a warn log when context object max depth is reached
   contextObjectMaxDepthWarn: true,
 
-  // produce a warning when circular reference is found in context object
+  // Produce a warning when circular reference is found in context object
   contextObjectCircularRefWarn: true,
+
+  // If true, all logs will be sent to standard console output functions (console.info, console.warn, ...)
+  sendLogsToConsoleOutput: false,
+
+  // If true, all logs will be sent to Better Stack
+  sendLogsToBetterStack: true,
 };
 
 /**
@@ -64,6 +76,9 @@ class Logtail {
 
   // Flush function
   protected _flush: any;
+
+  // Log burst protection function
+  protected _logBurstProtection: any;
 
   // Middleware
   protected _middleware: Middleware[] = [];
@@ -110,6 +125,14 @@ class Logtail {
     const throttler = throttle((logs: any) => {
       return this._sync!(logs);
     });
+
+    // Burst protection for logging
+    this._logBurstProtection = makeBurstProtection(
+        this._options.burstProtectionMilliseconds,
+        this._options.burstProtectionMax,
+        'Logging',
+    )
+    this.log = this._logBurstProtection(this.log.bind(this))
 
     // Create a batcher, for aggregating logs by buffer size/interval
     const batcher = makeBatch(
@@ -182,6 +205,14 @@ class Logtail {
     level: ILogLevel = LogLevel.Info,
     context: TContext = {} as TContext
   ): Promise<ILogtailLog & TContext> {
+    if (this._options.sendLogsToConsoleOutput) {
+      if (["debug", "info", "warn", "error"].indexOf(level) !== -1) {
+        console[level as keyof typeof console](message, context)
+      } else {
+        console.log(`[${level.toUpperCase()}]`, message, context)
+      }
+    }
+
     // Check that we have a sync function
     if (typeof this._sync !== "function") {
       throw new Error("No Logtail logger sync function provided");
@@ -234,6 +265,11 @@ class Logtail {
         return transformedLog as ILogtailLog & TContext;
       }
       transformedLog = newTransformedLog;
+    }
+
+    if (!this._options.sendLogsToBetterStack) {
+      // Return the resulting log before sending it
+      return transformedLog as ILogtailLog & TContext;
     }
 
     try {
@@ -353,4 +389,8 @@ class Logtail {
 }
 
 // noinspection JSUnusedGlobalSymbols
-export default Logtail;
+export default class extends Logtail {
+  async log<TContext extends Context>(message: Message, level: ILogLevel = LogLevel.Info, context: TContext = {} as TContext): Promise<ILogtailLog & TContext> {
+    return super.log(message, level, context);
+  }
+};
