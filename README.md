@@ -1,4 +1,6 @@
-### Fork of [logtail/logtail-js](https://github.com/logtail/logtail-js) to support Cloudfare Workers
+# Deprecated, go use https://github.com/logtail/logtail-js/tree/master/packages/edge
+
+#### Fork of [logtail/logtail-js](https://github.com/logtail/logtail-js) to support Cloudfare Workers
 
 ### Contributors: how to keep this up to date
 
